@@ -339,8 +339,8 @@ static void handle_file(pid_t pid, int proc_dfd, int fdinfo_dfd, const char* fna
 #define MODE_TO_TYPE(m) (((m) & S_IFMT) >> 12)
 #define TYPE_TO_MODE(t) ((t) << 12)
   assert(TYPE_TO_MODE(MODE_TO_TYPE(S_IFMT)) == S_IFMT);
-  static const char *const st_types[] = {
-#define S(n) [MODE_TO_TYPE (n)] = #n
+  static const char* const st_types[] = {
+#define S(n) [MODE_TO_TYPE (n)] = #n " "
     S (S_IFIFO),
     S (S_IFCHR),
     S (S_IFDIR),
@@ -351,8 +351,8 @@ static void handle_file(pid_t pid, int proc_dfd, int fdinfo_dfd, const char* fna
 #undef S
   };
 
-  printf("%4d: %s mode:%#04o dev:%u,%u ino:%llu uid:%d gid:%d",
-         fd, st_types[MODE_TO_TYPE (st.st_mode)] ?: "S_IF???",
+  printf("%4d: %smode:%#04o dev:%u,%u ino:%llu uid:%d gid:%d",
+         fd, st_types[MODE_TO_TYPE(st.st_mode)] ?: MODE_TO_TYPE(st.st_mode) == 0 ? "" : "S_IF??? ",
          st.st_mode & ACCESSPERMS,
          gnu_dev_major(st.st_dev), gnu_dev_minor(st.st_dev),
          (unsigned long long int) st.st_ino,
