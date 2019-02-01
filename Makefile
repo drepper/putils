@@ -3,9 +3,13 @@
 PROGRAMS = pfiles plimit
 VERSION := $(shell sed -n 's/Version:[[:space:]]*\(.*\)/\1/p' putils.spec)
 
+
 CC = gcc -std=gnu17
 CFLAGS = -O2 -g
 DEFINES = -D_GNU_SOURCE -DVERSION=\"$(VERSION)\"
+ifeq (yes,$(shell if printf '\043include <dirent.h>\n__auto_type p = scandirat64;'|$(CC) -c -x c $(DEFINES) - -o /dev/null >& /dev/null; then echo yes; else echo no; fi))
+DEFINES += -DHAVE_SCANDIRAT
+endif
 WARN = -Wall -Wextra -Wnull-dereference -Wdouble-promotion -Wshadow -Wformat=2 -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wjump-misses-init -Werror
 
 all: $(PROGRAMS)

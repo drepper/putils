@@ -1,4 +1,4 @@
-/* Copyright (C) 2012 Ulrich Drepper <drepper@gmail.com>
+/* Copyright (C) 2019 Ulrich Drepper <drepper@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -97,8 +97,7 @@ static void* proc_net_ip;
 /* Information from /proc/net/packet.  */
 
 /* Prototypes for local functions.  */
-static void handle_file(pid_t pid, int proc_dfd, int fdinfo_dfd,
-                        const char* fname, int fd);
+static void handle_file(pid_t pid, int proc_dfd, int fdinfo_dfd, const char* fname, int fd);
 static int fd_filter(const struct dirent64* d);
 static void read_proc_net_unix(void);
 static int net_unix_compare(const void* p1, const void* p2);
@@ -166,9 +165,9 @@ int main(int argc, char* argv[])
 #endif
     if (nfds == -1) {
       if (errno == EACCES)
-        error(0, 0, gettext ("insufficient privileges to read file descriptors of process %ld"), pid);
+        error(0, 0, gettext("insufficient privileges to read file descriptors of process %ld"), pid);
       else
-        error (0, errno, gettext ("cannot read file descriptor of process %ld"), pid);
+        error (0, errno, gettext("cannot read file descriptor of process %ld"), pid);
 
       goto next;
     }

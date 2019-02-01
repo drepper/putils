@@ -1,4 +1,4 @@
-/* Copyright (C) 2012 Ulrich Drepper <drepper@gmail.com>
+/* Copyright (C) 2019 Ulrich Drepper <drepper@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -151,8 +151,7 @@ static void args_doc_constr(void)
   }
 
   int n;
-  snprintf(args_doc, sizeof(args_doc), "PID...\n-[%n%*s] SOFT,HARD PID...",
-           &n, (int) nlimits, "");
+  snprintf(args_doc, sizeof(args_doc), "PID...\n-[%n%*s] SOFT,HARD PID...", &n, (int) nlimits, "");
   for (__typeof__(nlimits) i = 0; i < nlimits; ++i)
     args_doc[n + i] = limits[i].idchar;
 
@@ -355,14 +354,14 @@ static error_t parse_opt(int key, char* arg, struct argp_state* state __attribut
   default:
     for (size_t cnt = 0; cnt < nlimits; ++cnt)
       if (key == limits[cnt].idchar) {
-        char *hardp = strchr(arg, ',');
+        char* hardp = strchr(arg, ',');
         if (hardp != NULL)
           *hardp++ = '\0';
 
         rlim64_t soft = parse_limit(arg, cnt);
         rlim64_t hard = hardp != NULL ? parse_limit(hardp, cnt) : 0;
 
-        struct opt_limit *newp = malloc(sizeof(*newp));
+        struct opt_limit* newp = malloc(sizeof(*newp));
         if (newp == NULL)
           error(EXIT_FAILURE, errno, gettext("cannot allocate memory"));
 
@@ -462,8 +461,7 @@ static int print_file_limits(const char* arg)
   for (__typeof__(nlimits) i = 0; i < nlimits; ++i) {
     struct rlimit64 lim;
     if (prlimit64(pid, limits[i].limit, NULL, &lim) != 0) {
-      fprintf(stderr, gettext("\
-cannot retrieve limit %s for process %ld: %m\n"), limits[i].name, pid);
+      fprintf(stderr, gettext("cannot retrieve limit %s for process %ld: %m\n"), limits[i].name, pid);
       if (errno == EPERM)
         return 1;
     }
