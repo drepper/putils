@@ -55,6 +55,9 @@ static const struct argp_option options[] = {
   { NULL, 0, NULL, 0, NULL, 0 }
 };
 
+/* Strings for arguments in help texts.  */
+static const char args_doc[] = N_("PID...");
+
 /* Short description of program.  */
 static const char doc[] = N_("Show information about all open files in each process.");
 
@@ -64,7 +67,7 @@ static error_t parse_opt(int key, char* arg, struct argp_state* state);
 
 /* Data structure to communicate with argp functions.  */
 static struct argp argp = {
-  options, parse_opt, NULL, doc, NULL, NULL, NULL
+  options, parse_opt, args_doc, doc, NULL, NULL, NULL
 };
 
 /* Mode selection.  */
